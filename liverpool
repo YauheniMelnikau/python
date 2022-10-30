@@ -1,0 +1,164 @@
+# Программа для определения оптимального состава на матч ФК "Ливерпуль".
+
+# Класс "Игрок" содержит атрибуты: имя, фамилия, номер, позиция, возраст, рейтинг, доступность для матча.
+# Также класс "Игрок" содержит методы по изменению номера игрока, обновлению его возраста, рейтинга
+# и доступности для матча.
+class Player:
+
+    def __init__(self, name, surname, number, position, age, rate, availability):
+        self.name = name
+        self.surname = surname
+        self.number = number
+        self.position = position
+        self.age = age
+        self.rate = rate
+        self.availability = availability
+
+    def change_number(self):
+        print(f"Please input new number for {self.name} {self.surname}:")
+        self.number = input()
+
+    def update_age(self):
+        print(f"Please update age for {self.name} {self.surname}:")
+        self.age = input()
+
+    def update_rate(self):
+        print(f"Please update rate for {self.name} {self.surname}:")
+        self.rate = input()
+
+    def update_availability(self):
+        print(f"Please update availability for {self.name} {self.surname}:")
+        self.availability = input()
+
+
+class Goalkeeper(Player):
+
+    pass
+
+
+class Defender(Player):
+
+    pass
+
+
+class Midfielder(Player):
+
+    pass
+
+
+class Forward(Player):
+
+    pass
+
+
+# Списки вратарей, защитников, полузащитников и нападающих.
+Goalkeepers = []
+Defenders = []
+Midfielders = []
+Forwards = []
+
+
+alisson = Goalkeeper("Alisson", "Becker", 1, "Goalkeeper", 30, 88, "active")
+gomez = Defender("Joe", "Gomez", 2, "Defender", 25, 68, "active")
+fabinho = Midfielder("Fabinho", "", 3, "Midfielder", 29, 82, "active")
+van_dijk = Defender("Virgil", "Van Dijk", 4, "Defender", 31, 90, "active")
+konate = Defender("Ibrahima", "Konate", 5, "Defender", 23, 70, "active")
+thiago = Midfielder("Thiago", "Alcantara", 6, "Midfielder", 31, 78, "active")
+milner = Midfielder("James", "Milner", 7, "Midfielder", 36, 67, "active")
+firmino = Forward("Roberto", "Firmino", 9, "Forward", 31, 75, "active")
+salah = Forward("Mohamed", "Salah", 11, "Forward", 30, 95, "active")
+adrian = Goalkeeper("Adrian", "", 35, "Goalkeeper", 13, 65, "active")
+henderson = Midfielder("Jordan", "Henderson", 14, "Midfielder", 32, 74, "active")
+oxlade_chamderlain = Midfielder("Alex", "Oxlade-Chamberlain", 15, "Midfielder", 29, 71, "active")
+jones = Midfielder("Curtis", "Jones", 17, "Midfielder", 21, 70, "active")
+elliott = Forward("Harvey", "Elliott", 19, "Forward", 19, 72, "active")
+jota = Forward("Diogo", "Jota", 20, "Forward", 25, 80, "active")
+tsimikas = Defender("Konstantinos", "Tsimikas", 21, "Defender", 26, 66, "active")
+diaz = Forward("Luis", "Diaz", 23, "Forward", 25, 79, "active")
+robertson = Defender("Andrew", "Robertson", 26, "Defender", 28, 76, "active")
+nunez = Forward("Darwin", "Nunez", 27, "Forward", 23, 77, "active")
+carvalho = Midfielder("Fabio", "Carvalho", 28, "Midfielder", 20, 69, "active")
+matip = Defender("Joel", "Matip", 32, "Defender", 31, 73, "active")
+kelleher = Goalkeeper("Caoimhin", "Kelleher", 62, "Goalkeeper", 24, 68, "active")
+alexander_arnold = Defender("Trent", "Alexander-Arnold", 66, "Defender", 24, 82, "active")
+
+
+# Изменить для следующих игроков доступность для матча на "injured".
+jota.update_availability()
+diaz.update_availability()
+matip.update_availability()
+
+
+Goalkeepers.append(alisson)
+Defenders.append(gomez)
+Midfielders.append(fabinho)
+Defenders.append(van_dijk)
+Defenders.append(konate)
+Midfielders.append(thiago)
+Midfielders.append(milner)
+Forwards.append(firmino)
+Forwards.append(salah)
+Goalkeepers.append(adrian)
+Midfielders.append(henderson)
+Midfielders.append(oxlade_chamderlain)
+Midfielders.append(jones)
+Forwards.append(elliott)
+Forwards.append(jota)
+Defenders.append(tsimikas)
+Forwards.append(diaz)
+Defenders.append(robertson)
+Forwards.append(nunez)
+Midfielders.append(carvalho)
+Defenders.append(matip)
+Goalkeepers.append(kelleher)
+Defenders.append(alexander_arnold)
+
+
+# Списки вратарей, защитников, полузащитников и нападающих, доступных для матча.
+ActiveGoalkeepers = []
+ActiveDefenders = []
+ActiveMidfielders = []
+ActiveForwards = []
+
+
+for player in Goalkeepers:
+    if player.availability == "active":
+        ActiveGoalkeepers.append(player)
+
+for player in Defenders:
+    if player.availability == "active":
+        ActiveDefenders.append(player)
+
+for player in Midfielders:
+    if player.availability == "active":
+        ActiveMidfielders.append(player)
+
+for player in Forwards:
+    if player.availability == "active":
+        ActiveForwards.append(player)
+
+
+def sort_by_rate(players):
+    return players.rate
+
+
+# Списки вратарей, защитников, полузащитников и нападающих, доступных для матча, отсортированные
+# по рейтингу и обрезанные по необходимому для матча количеству игроков каждой позиции.
+GoalkeeperForGame = sorted(ActiveGoalkeepers, reverse=True, key=sort_by_rate)[:1]
+DefendersForGame = sorted(ActiveDefenders, reverse=True, key=sort_by_rate)[:4]
+MidfieldersForGame = sorted(ActiveMidfielders, reverse=True, key=sort_by_rate)[:3]
+ForwardsForGame = sorted(ActiveForwards, reverse=True, key=sort_by_rate)[:3]
+
+
+# Окончательный состав на матч.
+for player in GoalkeeperForGame:
+    print(player.number, player.name, player.surname)
+
+for player in DefendersForGame:
+    print(player.number, player.name, player.surname)
+
+for player in MidfieldersForGame:
+    print(player.number, player.name, player.surname)
+
+for player in ForwardsForGame:
+    print(player.number, player.name, player.surname)
